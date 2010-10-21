@@ -17,4 +17,11 @@ class OpenOfficeTest < Test::Unit::TestCase
         end
     end
 
+    def test_open_office_convert_stream
+        assert_nothing_raised do
+            content = IO.read(File.dirname(__FILE__) + "/../helpers/test.odt")
+            assert_kind_of String, FileUtils::OpenOffice.convert(content, 'odt', 'pdf') 
+        end
+    end
+
 end
