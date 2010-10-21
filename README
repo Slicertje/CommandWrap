@@ -1,1 +1,7 @@
 A set of utility classes to extract meta data from different file types
+
+INSTALL
+-------
+
+gem install file_utils
+
