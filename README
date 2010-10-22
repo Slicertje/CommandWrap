@@ -5,3 +5,13 @@ INSTALL
 
 gem install fileutils
 
+REQUIREMENT
+-----------
+
+For full functionality the following programs must be installed:
+- openoffice
+- openoffice python bindings
+- pdftk
+- zip
+- imagemagick
+- Xvfb

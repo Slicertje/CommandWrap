@@ -1,6 +1,8 @@
 *.iml
 .idea
+.directory
 google.png
 *.gem
 pdf*.jpg
 result*
+target*
