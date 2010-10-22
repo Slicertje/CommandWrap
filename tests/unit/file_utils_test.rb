@@ -72,4 +72,14 @@ class FileUtilsTest < Test::Unit::TestCase
         end
     end
 
+    def test_file_utils_index
+        assert_nothing_raised do
+            assert_equal '', FileUtils.index(File.dirname(__FILE__) + "/../helpers/scale.jpg")
+            assert_equal 'test', FileUtils.index(File.dirname(__FILE__) + "/../helpers/test.txt")
+            assert FileUtils.index(File.dirname(__FILE__) + "/../helpers/test.odt").include?('TEST'), 'TEST in odt'
+            assert_equal 'TESTING', FileUtils.index(File.dirname(__FILE__) + "/../helpers/test.html")
+            assert_equal 'TEST.HTM', FileUtils.index(File.dirname(__FILE__) + "/../helpers/test.htm")
+        end
+    end
+
 end

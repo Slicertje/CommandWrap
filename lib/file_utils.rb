@@ -92,6 +92,32 @@ module FileUtils
 
     module_function :temp
 
+    # Tries to convert content of file to plaintext or html
+    def index (path)
+        extension = FileUtils.extension(path).downcase
+
+        if extension == 'txt'
+            return IO.read(path)
+        end
+
+        if extension == 'html' || extension == 'htm'
+            return IO.read(path)
+        end
+
+        tmp = self.temp('html')
+        begin
+            FileUtils::OpenOffice.convert(path, tmp)
+            return IO.read(tmp) if File.exists?(tmp)
+        rescue
+        ensure
+            File.delete(tmp) if File.exists?(tmp)
+        end
+
+        ''
+    end
+
+    module_function :index
+
     autoload :Image,        File.dirname(__FILE__) + "/file_utils/image"
     autoload :OpenOffice,   File.dirname(__FILE__) + "/file_utils/open_office"
     autoload :Config,       File.dirname(__FILE__) + "/file_utils/config"
