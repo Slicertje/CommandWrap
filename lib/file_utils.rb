@@ -5,7 +5,7 @@ module FileUtils
     # Creates a screenshot from the given url
     # Uses CutyCapt (cutycapt.sourceforge.net)
     def capture (url, target)
-        command = FileUtils::Config::Xvfb.command(File.dirname(__FILE__) + "/../bin/CutyCapt --url=#{url} --out=#{target}")
+        command = FileUtils::Config::Xvfb.command(File.dirname(__FILE__) + "/../bin/CutyCapt --min-width=1024 --min-height=768 --url=#{url} --out=#{target}")
         `#{command}`
     end
 
