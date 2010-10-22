@@ -14,20 +14,8 @@ module FileUtils
                 source = args[0]
                 target = args[1]
             elsif args.length == 3
-                source = "#{FileUtils::Config.tmp_dir}/tmp.#{args[1]}"
-                id = 1
-                while File.exists?(source)
-                    source = "#{FileUtils::Config.tmp_dir}/tmp.#{id}.#{args[1]}" 
-                    id += 1
-                end
-
-                target = "#{FileUtils::Config.tmp_dir}/tmp.#{args[2]}"
-                id = 1
-                while File.exists?(target)
-                    target = "#{FileUtils::Config.tmp_dir}/tmp.#{id}.#{args[2]}"
-                    id += 1
-                end
-
+                source = FileUtils.temp(args[1])
+                target = FileUtils.temp(args[2])
                 # Save Content
                 File.open(source, 'w') do |file|
                     file.write args[0]

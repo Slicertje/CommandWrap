@@ -24,12 +24,52 @@ class FileUtilsTest < Test::Unit::TestCase
         end
     end
 
-    def test_file_extension
+    def test_file_utils_extension
         assert_equal 'exe', FileUtils.extension('test.exe')
     end
 
-    def test_file_extension_none
+    def test_file_utils_extension_none
         assert_equal '', FileUtils.extension('test')
+    end
+
+    def test_file_utils_preview
+        target = File.dirname(__FILE__) + "/../../result.png"
+
+        assert_nothing_raised do
+            source = File.dirname(__FILE__) + "/../../README"
+            
+            assert_nil FileUtils.preview(source, target, 100, 100)
+
+            # Image
+            source = File.dirname(__FILE__) + "/../helpers/scale.jpg"
+
+            File.delete(target) if File.exists?(target)
+
+            assert FileUtils.preview(source, target, 100, 100), 'Creation of image preview'
+            assert File.exists?(target), 'File exists? preview of image'
+
+            # Document
+            source = File.dirname(__FILE__) + "/../helpers/test.odt"
+
+            File.delete(target) if File.exists?(target)
+
+            assert FileUtils.preview(source, target, 100, 100), 'Creation of odt preview'
+            assert File.exists?(target), 'File exists? preview of odt'
+        end
+    end
+
+    def test_file_utils_temppath
+        assert_nothing_raised do
+            path1 = FileUtils.temp('jpg')
+            assert_equal "#{FileUtils::Config.tmp_dir}/tmp.jpg", path1
+
+            FileUtils.touch(path1)
+
+            path2 = FileUtils.temp('jpg')
+            assert_equal "#{FileUtils::Config.tmp_dir}/tmp.1.jpg", path2
+
+            File.delete(path1)
+        end
     end
 
 end

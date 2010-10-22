@@ -5,8 +5,8 @@ INSTALL
 
 gem install fileutils
 
-REQUIREMENT
------------
+REQUIREMENTS
+------------
 
 For full functionality the following programs must be installed:
 - openoffice

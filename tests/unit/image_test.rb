@@ -49,5 +49,5 @@ class ImageTest < Test::Unit::TestCase
         assert File.exists?(target)
         assert_equal dim, FileUtils::Image.dimensions(target)
     end
-
+    
 end
