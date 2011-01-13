@@ -51,8 +51,12 @@ module FileUtils
         # Image ?
         formats = Magick.formats
         if formats.key?(extension) && formats[extension].include?('r')
-            FileUtils::Image.scale(source, target, width, height)
-            return true
+            begin
+                FileUtils::Image.scale(source, target, width, height)
+                return true
+            rescue
+                return false
+            end
         end
 
         tmppdf = self.temp('pdf')
