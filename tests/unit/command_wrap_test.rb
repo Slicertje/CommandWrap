@@ -85,9 +85,19 @@ class CommandWrapTest < Test::Unit::TestCase
     def test_preview_mpg
         source = File.dirname(__FILE__) + "/../helpers/test.mpg"
         target = CommandWrap.temp('png')
-        File.delete(target) if File.exists?(target)
         assert_nothing_raised do
             assert_equal false, CommandWrap.preview(source, target, 160, 200)
+        end
+    end
+
+    def test_htmltopdf
+        sleep 1
+        source = File.dirname(__FILE__) + "/../helpers/test.html"
+        target = CommandWrap.temp('pdf')
+        assert_nothing_raised do
+            CommandWrap.htmltopdf(source, target)
+            assert File.exists?(target)
+            File.delete(target)
         end
     end
 

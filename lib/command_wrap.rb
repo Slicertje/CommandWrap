@@ -9,6 +9,12 @@ module CommandWrap
         `#{command}`
     end
 
+    def self.htmltopdf (source, target)
+        command = CommandWrap::Config::Xvfb.command(File.dirname(__FILE__) + "/../bin/wkhtmltopdf --print-media-type #{source} #{target}")
+        puts command
+        `#{command}`
+    end
+
     # Sources consists of paths followed by the filename that must be used in the zip 
     def self.zip (target, *sources)
         targetdir = "#{CommandWrap::Config.tmp_dir}/zip"
