@@ -1,4 +1,4 @@
-module FileUtils
+module CommandWrap
 
     module OpenOffice
 
@@ -14,8 +14,8 @@ module FileUtils
                 source = args[0]
                 target = args[1]
             elsif args.length == 3
-                source = FileUtils.temp(args[1])
-                target = FileUtils.temp(args[2])
+                source = CommandWrap.temp(args[1])
+                target = CommandWrap.temp(args[2])
                 # Save Content
                 File.open(source, 'w') do |file|
                     file.write args[0]
@@ -24,13 +24,13 @@ module FileUtils
                 raise ArgumentError.new('wrong number of arguments')
             end
             command = File.dirname(__FILE__) + "/../../bin/DocumentConverter.py"
-            result = `#{FileUtils::Config::OpenOffice.python} #{command}  #{source} #{target} #{FileUtils::Config::OpenOffice.port}`
+            result = `#{CommandWrap::Config::OpenOffice.python} #{command}  #{source} #{target} #{CommandWrap::Config::OpenOffice.port}`
             raise result unless result.strip == ''
 
             if args.length == 3
                 result = IO.read(target)
-                File.delete(source)
-                File.delete(target)
+                File.delete(source) if File.writable?(source)
+                File.delete(target) if File.writable?(target)
                 result
             end
         end

@@ -1,4 +1,4 @@
-module FileUtils::OpenOffice
+module CommandWrap::OpenOffice
 
     module Server
 

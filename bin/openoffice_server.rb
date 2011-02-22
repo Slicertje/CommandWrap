@@ -1,4 +1,4 @@
 require 'rubygems'
-require File.dirname(__FILE__) + "/../lib/file_utils"
+require File.dirname(__FILE__) + "/../lib/command_wrap"
 
-FileUtils::OpenOffice::Server.restart
+CommandWrap::OpenOffice::Server.restart

@@ -2,25 +2,25 @@ require File.dirname(__FILE__) + "/../test_helper"
 
 class OpenOfficeTest < Test::Unit::TestCase
 
-    def test_open_office_exists
+    def test_exists
         assert_nothing_raised do
-            FileUtils::OpenOffice
+            CommandWrap::OpenOffice
         end
     end
 
-    def test_open_office_convert
+    def test_convert
         assert_nothing_raised do
-            path = '/tmp/test.pdf'
-            File.delete(path) if File.exists?(path)
-            FileUtils::OpenOffice.convert File.dirname(__FILE__) + "/../helpers/test.odt", path
+            path = CommandWrap.temp('pdf')
+            CommandWrap::OpenOffice.convert File.dirname(__FILE__) + "/../helpers/test.odt", path
             assert File.exists?(path), 'Pdf bestaat niet'
+            File.delete(path) if File.writable?(path)
         end
     end
 
-    def test_open_office_convert_stream
+    def test_convert_stream
         assert_nothing_raised do
             content = IO.read(File.dirname(__FILE__) + "/../helpers/test.odt")
-            assert_kind_of String, FileUtils::OpenOffice.convert(content, 'odt', 'pdf') 
+            assert_kind_of String, CommandWrap::OpenOffice.convert(content, 'odt', 'pdf') 
         end
     end
 

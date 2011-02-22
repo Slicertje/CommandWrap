@@ -1,6 +1,6 @@
 require 'RMagick'
 
-module FileUtils
+module CommandWrap
 
     module Image
 

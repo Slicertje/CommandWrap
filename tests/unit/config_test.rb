@@ -2,35 +2,35 @@ require File.dirname(__FILE__) + "/../test_helper"
 
 class ConfigTest < Test::Unit::TestCase
 
-    def test_config_exists
+    def test_exists
         assert_nothing_raised do
-            FileUtils::Config
+            CommandWrap::Config
         end
     end
 
-    def test_config_tmp_dir
+    def test_tmp_dir
         tmp_dir = '/tmp'
-        assert_equal tmp_dir, FileUtils::Config.tmp_dir
-        FileUtils::Config.tmp_dir = '/home/test/tmp'
-        assert_equal '/home/test/tmp', FileUtils::Config.tmp_dir
-        FileUtils::Config.tmp_dir = tmp_dir
+        assert_equal tmp_dir, CommandWrap::Config.tmp_dir
+        CommandWrap::Config.tmp_dir = '/home/test/tmp'
+        assert_equal '/home/test/tmp', CommandWrap::Config.tmp_dir
+        CommandWrap::Config.tmp_dir = tmp_dir
     end
 
-    def test_config_pdftk
+    def test_pdftk
         pdftk = 'pdftk'
-        assert_equal pdftk, FileUtils::Config.pdftk
-        assert_equal 'pdftk', FileUtils::Config.pdftk
-        FileUtils::Config.pdftk = '/usr/bin/pdftk'
-        assert_equal '/usr/bin/pdftk', FileUtils::Config.pdftk
-        FileUtils::Config.pdftk = pdftk
+        assert_equal pdftk, CommandWrap::Config.pdftk
+        assert_equal 'pdftk', CommandWrap::Config.pdftk
+        CommandWrap::Config.pdftk = '/usr/bin/pdftk'
+        assert_equal '/usr/bin/pdftk', CommandWrap::Config.pdftk
+        CommandWrap::Config.pdftk = pdftk
     end
 
-    def test_config_zip
+    def test_zip
         zip = 'zip'
-        assert_equal 'zip', FileUtils::Config.zip
-        FileUtils::Config.zip = '/usr/bin/zip'
-        assert_equal '/usr/bin/zip', FileUtils::Config.zip
-        FileUtils::Config.zip = zip
+        assert_equal 'zip', CommandWrap::Config.zip
+        CommandWrap::Config.zip = '/usr/bin/zip'
+        assert_equal '/usr/bin/zip', CommandWrap::Config.zip
+        CommandWrap::Config.zip = zip
     end
 
 end

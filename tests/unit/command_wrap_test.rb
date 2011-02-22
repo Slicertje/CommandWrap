@@ -1,12 +1,12 @@
 require File.dirname(__FILE__) + "/../test_helper"
 
-class FileUtilsTest < Test::Unit::TestCase
+class CommandWrapTest < Test::Unit::TestCase
 
     def test_capture
         assert_nothing_raised do
             path = File.dirname(__FILE__) + "/../../google.png"
             File.delete(path) if File.exists?(path)
-            FileUtils.capture('http://www.google.be', path)
+            CommandWrap.capture('http://www.google.be', path)
             assert File.exists?(path)
         end
     end
@@ -19,17 +19,17 @@ class FileUtilsTest < Test::Unit::TestCase
         File.delete(target) if File.exists?(target)
 
         assert_nothing_raised do
-            FileUtils.zip(target, source1, 'doc.pdf', source2, 'doc.odt')
+            CommandWrap.zip(target, source1, 'doc.pdf', source2, 'doc.odt')
             assert File.exists?(target)
         end
     end
 
     def test_extension
-        assert_equal 'exe', FileUtils.extension('test.exe')
+        assert_equal 'exe', CommandWrap.extension('test.exe')
     end
 
     def test_extension_none
-        assert_equal '', FileUtils.extension('test')
+        assert_equal '', CommandWrap.extension('test')
     end
 
     def test_preview
@@ -38,14 +38,14 @@ class FileUtilsTest < Test::Unit::TestCase
         assert_nothing_raised do
             source = File.dirname(__FILE__) + "/../../README"
             
-            assert_nil FileUtils.preview(source, target, 100, 100)
+            assert_nil CommandWrap.preview(source, target, 100, 100)
 
             # Image
             source = File.dirname(__FILE__) + "/../helpers/scale.jpg"
 
             File.delete(target) if File.exists?(target)
 
-            assert FileUtils.preview(source, target, 100, 100), 'Creation of image preview'
+            assert CommandWrap.preview(source, target, 100, 100), 'Creation of image preview'
             assert File.exists?(target), 'File exists? preview of image'
 
             # Document
@@ -53,20 +53,20 @@ class FileUtilsTest < Test::Unit::TestCase
 
             File.delete(target) if File.exists?(target)
 
-            assert FileUtils.preview(source, target, 100, 100), 'Creation of odt preview'
+            assert CommandWrap.preview(source, target, 100, 100), 'Creation of odt preview'
             assert File.exists?(target), 'File exists? preview of odt'
         end
     end
 
     def test_temppath
         assert_nothing_raised do
-            path1 = FileUtils.temp('jpg')
-            assert_equal "#{FileUtils::Config.tmp_dir}/tmp.jpg", path1
+            path1 = CommandWrap.temp('jpg')
+            assert_equal "#{CommandWrap::Config.tmp_dir}/tmp.jpg", path1
 
             FileUtils.touch(path1)
 
-            path2 = FileUtils.temp('jpg')
-            assert_equal "#{FileUtils::Config.tmp_dir}/tmp.1.jpg", path2
+            path2 = CommandWrap.temp('jpg')
+            assert_equal "#{CommandWrap::Config.tmp_dir}/tmp.1.jpg", path2
 
             File.delete(path1)
         end
@@ -74,20 +74,20 @@ class FileUtilsTest < Test::Unit::TestCase
 
     def test_index
         assert_nothing_raised do
-            assert_equal '', FileUtils.index(File.dirname(__FILE__) + "/../helpers/scale.jpg")
-            assert_equal 'test', FileUtils.index(File.dirname(__FILE__) + "/../helpers/test.txt")
-            assert FileUtils.index(File.dirname(__FILE__) + "/../helpers/test.odt").include?('TEST'), 'TEST in odt'
-            assert_equal 'TESTING', FileUtils.index(File.dirname(__FILE__) + "/../helpers/test.html")
-            assert_equal 'TEST.HTM', FileUtils.index(File.dirname(__FILE__) + "/../helpers/test.htm")
+            assert_equal '', CommandWrap.index(File.dirname(__FILE__) + "/../helpers/scale.jpg")
+            assert_equal 'test', CommandWrap.index(File.dirname(__FILE__) + "/../helpers/test.txt")
+            assert CommandWrap.index(File.dirname(__FILE__) + "/../helpers/test.odt").include?('TEST'), 'TEST in odt'
+            assert_equal 'TESTING', CommandWrap.index(File.dirname(__FILE__) + "/../helpers/test.html")
+            assert_equal 'TEST.HTM', CommandWrap.index(File.dirname(__FILE__) + "/../helpers/test.htm")
         end
     end
 
     def test_preview_mpg
         source = File.dirname(__FILE__) + "/../helpers/test.mpg"
-        target = FileUtils.temp('png')
+        target = CommandWrap.temp('png')
         File.delete(target) if File.exists?(target)
         assert_nothing_raised do
-            assert_equal false, FileUtils.preview(source, target, 160, 200)
+            assert_equal false, CommandWrap.preview(source, target, 160, 200)
         end
     end
 

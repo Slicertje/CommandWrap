@@ -1,4 +1,4 @@
-module FileUtils::Config
+module CommandWrap::Config
 
     module OpenOffice
 

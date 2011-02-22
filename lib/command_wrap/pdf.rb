@@ -1,6 +1,6 @@
 require 'RMagick'
 
-module FileUtils
+module CommandWrap
 
     module Pdf
 
@@ -8,7 +8,7 @@ module FileUtils
             metas = {}
 
             key = ''
-            `#{FileUtils::Config.pdftk} #{path} dump_data`.gsub("\r\n", "\n").gsub("\r", "\n").split("\n").each do |line|
+            `#{CommandWrap::Config.pdftk} #{path} dump_data`.gsub("\r\n", "\n").gsub("\r", "\n").split("\n").each do |line|
                 parts = line.split(':')
                 parts[1] = parts[1].gsub('&#0;', '')
                 if parts[0] == 'InfoValue'
@@ -39,7 +39,7 @@ module FileUtils
 
         # Merges the given pdfs into a single pdf
         def self.merge (target, *sources)
-            `#{FileUtils::Config.pdftk} #{sources.join(' ')} cat output #{target}`
+            `#{CommandWrap::Config.pdftk} #{sources.join(' ')} cat output #{target}`
         end
         
     end
