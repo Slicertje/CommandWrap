@@ -10,7 +10,7 @@ class ConfigXvfbTest < Test::Unit::TestCase
 
     def teardown
         CommandWrap::Config::Xvfb.executable = 'xvfb-run'
-        CommandWrap::Config::Xvfb.params = '--server-args="-screen 0, 1024x768x24"'
+        CommandWrap::Config::Xvfb.params = '--wait=0 --server-args="-screen 0, 1024x768x24"'
     end
 
     def test_config_xvbf_executable
@@ -22,13 +22,13 @@ class ConfigXvfbTest < Test::Unit::TestCase
 
     def test_params
         assert_kind_of String, CommandWrap::Config::Xvfb.params
-        assert_equal '--server-args="-screen 0, 1024x768x24"', CommandWrap::Config::Xvfb.params
+        assert_equal '--wait=0 --server-args="-screen 0, 1024x768x24"', CommandWrap::Config::Xvfb.params
         CommandWrap::Config::Xvfb.params = 'dummy'
         assert_equal 'dummy', CommandWrap::Config::Xvfb.params
     end
 
     def test_command
-        assert_equal 'xvfb-run --server-args="-screen 0, 1024x768x24" echo "test"', CommandWrap::Config::Xvfb.command('echo "test"')
+        assert_equal 'xvfb-run --wait=0 --server-args="-screen 0, 1024x768x24" echo "test"', CommandWrap::Config::Xvfb.command('echo "test"')
     end
         
 end

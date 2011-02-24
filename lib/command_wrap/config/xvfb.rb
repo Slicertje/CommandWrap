@@ -11,7 +11,7 @@ module CommandWrap::Config
         end
 
         def self.params
-            @params ||= '--server-args="-screen 0, 1024x768x24"'
+            @params ||= '--wait=0 --server-args="-screen 0, 1024x768x24"'
         end
 
         def self.params= (params)
