@@ -11,7 +11,6 @@ module CommandWrap
 
     def self.htmltopdf (source, target)
         command = CommandWrap::Config::Xvfb.command(File.dirname(__FILE__) + "/../bin/wkhtmltopdf --print-media-type #{source} #{target}")
-        puts command
         `#{command}`
     end
 
