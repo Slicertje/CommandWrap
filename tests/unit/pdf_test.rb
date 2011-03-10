@@ -13,8 +13,7 @@ class PdfTest < Test::Unit::TestCase
     def test_metas
         assert_nothing_raised do
             metas = CommandWrap::Pdf.metas(TEST_PDF)
-            assert_kind_of Hash, metas
-            assert_equal 'OpenOffice.org 3.2', metas['Producer']
+            assert_equal 'OpenOffice.org 3.2', metas[:Producer]
         end
     end
 

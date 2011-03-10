@@ -1,33 +1,20 @@
 require 'RMagick'
+require 'pdf-reader'
 
 module CommandWrap
 
     module Pdf
 
         def self.metas (path)
-            metas = {}
-
-            key = ''
-            `#{CommandWrap::Config.pdftk} #{path} dump_data`.gsub("\r\n", "\n").gsub("\r", "\n").split("\n").each do |line|
-                parts = line.split(':')
-                parts[1] = parts[1].gsub('&#0;', '')
-                if parts[0] == 'InfoValue'
-                    if key != ''
-                        metas[key] = parts[1].strip
-                        key = ''
-                    end
-                elsif parts[0] == 'InfoKey'
-                    key = parts[1].strip
-                else
-                    metas[parts[0].strip] = parts[1].strip
-                end
-            end            
-
-            metas
+            receiver = MetaDataReceiver.new
+            PDF::Reader.file(path, receiver, :pages => false, :metadata => true)
+            receiver.regular
         end
 
         def self.pages (path)
-            metas(path)['NumberOfPages'].to_i
+            receiver = PagesReceiver.new
+            PDF::Reader.file(path, receiver, {:metadata => true, :pages => false})
+            receiver.pages
         end
 
         # Generates an image of a pdf page
@@ -41,7 +28,24 @@ module CommandWrap
         def self.merge (target, *sources)
             `#{CommandWrap::Config.pdftk} #{sources.join(' ')} cat output #{target}`
         end
-        
+
+        class PagesReceiver
+
+            attr_accessor :pages
+
+            def page_count (pages)
+                @pages = pages
+            end
+        end
+
+        class MetaDataReceiver
+            attr_accessor :regular
+
+            def metadata (data)
+                @regular = data
+            end
+        end
+
     end
 
 end
