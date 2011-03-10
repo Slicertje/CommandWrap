@@ -115,9 +115,10 @@ module CommandWrap
         ''
     end
 
-    autoload :Image,        File.dirname(__FILE__) + "/command_wrap/image"
-    autoload :OpenOffice,   File.dirname(__FILE__) + "/command_wrap/open_office"
-    autoload :Config,       File.dirname(__FILE__) + "/command_wrap/config"
-    autoload :Pdf,          File.dirname(__FILE__) + "/command_wrap/pdf"
+    autoload :Image,      File.dirname(__FILE__) + '/command_wrap/image'
+    autoload :OpenOffice, File.dirname(__FILE__) + '/command_wrap/open_office'
+    autoload :Config,     File.dirname(__FILE__) + '/command_wrap/config'
+    autoload :Pdf,        File.dirname(__FILE__) + '/command_wrap/pdf'
+    autoload :Xvfb,       File.dirname(__FILE__) + '/command_wrap/xvfb'
 
 end
