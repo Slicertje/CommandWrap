@@ -16,6 +16,14 @@ module CommandWrap
 
     # Sources consists of paths followed by the filename that must be used in the zip 
     def self.zip (target, *sources)
+        if sources.length == 1 && sources[0].is_a?(Array)
+            sources = sources[0]
+        end
+
+        if sources.length % 2 == 1
+            raise "sources must contain an even number of string (path to file, filename)"
+        end
+
         targetdir = "#{CommandWrap::Config.tmp_dir}/zip"
         id = 1
         while File.exists?(targetdir)

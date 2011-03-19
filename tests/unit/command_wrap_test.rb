@@ -24,6 +24,27 @@ class CommandWrapTest < Test::Unit::TestCase
         end
     end
 
+    def test_zip_array
+        target = File.dirname(__FILE__) + "/../../result.zip"
+        source1 = File.dirname(__FILE__) + "/../helpers/2pages.pdf"
+        source2 = File.dirname(__FILE__) + "/../helpers/test.odt"
+
+        File.delete(target) if File.exists?(target)
+
+        assert_nothing_raised do
+            CommandWrap.zip(target, [ source1, 'doc.pdf', source2, 'doc.odt' ])
+            assert File.exists?(target)
+        end
+    end
+
+    def test_zip_exception
+        target = File.dirname(__FILE__) + "/../../result.zip"
+
+        assert_raises RuntimeError, "sources must contain an even number of string (path to file, filename)" do
+            CommandWrap.zip(target, "dummy")
+        end
+    end
+
     def test_extension
         assert_equal 'exe', CommandWrap.extension('test.exe')
     end
