@@ -122,4 +122,18 @@ class CommandWrapTest < Test::Unit::TestCase
         end
     end
 
+    def test_htmltopdf_with_commands
+        sleep 1
+        source = File.dirname(__FILE__) + "/../helpers/test.html"
+        target = CommandWrap.temp('pdf')
+        assert_nothing_raised do
+            footer = "<html><head><title>Footer</title></head><body><p>testing\nmultiple\nlines</p></body></html>"
+            header = "<html><head><title>Header</title></head><body><p>testing\nmultiple\nlines</p></body></html>"
+            CommandWrap.htmltopdf(source, target, :footer => footer, :header => header)
+            puts target
+            assert File.exists?(target)
+            File.delete(target)
+        end
+    end
+
 end

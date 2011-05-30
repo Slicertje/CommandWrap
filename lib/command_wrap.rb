@@ -9,9 +9,71 @@ module CommandWrap
         `#{command}`
     end
 
-    def self.htmltopdf (source, target)
-        command = CommandWrap::Config::Xvfb.command(File.dirname(__FILE__) + "/../bin/wkhtmltopdf --print-media-type #{source} #{target}")
+    INJECT_SCRIPT = "
+        <script type='text/javascript'>
+            function subst() {
+                var vars = {};
+                var params = window.location.search.substring(1).split('&');
+                for (var i = 0; i < params.length; i++) {
+                    var parts = params[i].split('=');
+                    vars[parts[0]] = unescape(parts[1]);
+                }
+                var opts = [ 'frompage', 'topage', 'page', 'webpage', 'section', 'subsection', 'subsubsection' ];
+                for (var i in opts) {
+                    var elems = document.getElementsByClassName(key[i]);
+                    for (var j = 0; j < elems.length; j++) {
+                        elems[j].textContent = vars[key[i]];
+                    }
+                }
+            }
+            window.onload = subst;
+        </script>
+    "
+
+    def self.htmltopdf (source, target, options = {})
+        header_html = ''
+        footer_html = ''
+
+        params = ''
+
+        options.each do |key, value|
+            key = key.to_s
+            if value.nil? || value == ''
+                params += " --#{key}"
+            elsif key == 'header'
+                header_html = CommandWrap.temp('html')
+                # Inject parameters
+                if value.index('<head>')
+                    value = value.gsub('<head>', '<head>' + INJECT_SCRIPT)
+                end
+
+                File.open(header_html, 'w') do |f|
+                    f.write value
+                end
+
+                params += " --header-html #{header_html}"
+            elsif key == 'footer'
+                footer_html = CommandWrap.temp('html')
+                # Inject parameters
+                if value.index('<head>')
+                    value = value.gsub('<head>', '<head>' + INJECT_SCRIPT)
+                end
+
+                File.open(footer_html, 'w') do |f|
+                    f.write value
+                end
+
+                params += " --footer-html #{footer_html}"
+            else
+                params += " --#{key} #{value}"
+            end
+        end
+
+        command = CommandWrap::Config::Xvfb.command(File.dirname(__FILE__) + "/../bin/wkhtmltopdf --print-media-type #{source} #{params} #{target}")
         `#{command}`
+
+        File.delete(header_html) if header_html != '' && File.exist?(header_html)
+        File.delete(footer_html) if footer_html != '' && File.exist?(footer_html)
     end
 
     # Sources consists of paths followed by the filename that must be used in the zip 
