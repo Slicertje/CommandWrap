@@ -69,7 +69,8 @@ module CommandWrap
             end
         end
 
-        command = CommandWrap::Config::Xvfb.command(File.dirname(__FILE__) + "/../bin/wkhtmltopdf --print-media-type #{source} #{params} #{target}")
+        command = CommandWrap::Config::Xvfb.command(File.dirname(__FILE__) + "/../bin/wkhtmltopdf --quiet --print-media-type #{source} #{params} #{target}")
+
         `#{command}`
 
         File.delete(header_html) if header_html != '' && File.exist?(header_html)
