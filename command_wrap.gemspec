@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
     spec.files = Dir.glob("lib/**/*.rb") + Dir.glob("tests/**/*") + %w(README) + Dir.glob("bin/*")
     spec.test_files = Dir.glob("tests/**/*.rb")
 
-    spec.version = '0.5.2'
+    spec.version = '0.6'
     
     spec.add_dependency('rmagick', '>= 2.13.1')
     spec.add_dependency('pdf-reader')

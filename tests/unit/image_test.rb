@@ -21,7 +21,7 @@ class ImageTest < Test::Unit::TestCase
 
         File.delete(target) if File.exists?(target)
 
-        CommandWrap::Image.scale(source, target, 100)
+        CommandWrap::Image.scale(source, target, 100, 100)
         assert File.exists?(target)
         assert_equal dim, CommandWrap::Image.dimensions(target)
     end
@@ -46,6 +46,19 @@ class ImageTest < Test::Unit::TestCase
         File.delete(target) if File.exists?(target)
 
         CommandWrap::Image.scale(source, target, 1000, 1500)
+        assert File.exists?(target)
+        assert_equal dim, CommandWrap::Image.dimensions(target)
+    end
+
+    def test_scale_no_width
+        dim = { :width => 75, :height => 100 }
+
+        source = File.dirname(__FILE__) + "/../helpers/img150x200.jpg"
+        target = File.dirname(__FILE__) + "/../../target4.png"
+
+        File.delete(target) if File.exists?(target)
+
+        CommandWrap::Image.scale(source, target, 75)
         assert File.exists?(target)
         assert_equal dim, CommandWrap::Image.dimensions(target)
     end
