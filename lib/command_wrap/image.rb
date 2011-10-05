@@ -13,9 +13,7 @@ module CommandWrap
             # if no height, we calculate it based on the width
             unless height
                 dim = self.dimensions(source)
-                    puts dim.inspect
                 height = (1.0 * width * dim[:height] / dim[:width]).floor
-                puts height
             end
 
             # Scale source
